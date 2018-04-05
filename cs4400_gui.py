@@ -131,14 +131,16 @@ class MainWindow(QMainWindow):
         self.gloginT.addLayout(self.gloginN)
         #
 
-    def login_execute(self):
+def login_execute(self):
         self.c.execute("select Email, Password from User")
         up = self.c.fetchall()
+        login_info = []
         for each in up:
             if (self.emailAdd.text() == each['Email'] and self.passAdd.text() == each['Password']):
                 self.stacked_widget.setCurrentIndex(3)
-
-        self.c.close()
+                login_info.append(up)
+        if len(login_info) == 0:
+            QMessageBox.information(self, 'Login Failed', 'Unable to find your information. Please check your username and/or password and try again.')
 
     def new_visitor(self):
         self.stacked_widget.setCurrentIndex(1) 
